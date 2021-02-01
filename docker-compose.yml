@@ -1,0 +1,52 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
+services:
+
+    mysql:
+      image: mysql:5.7
+      container_name: bepark-mysql
+      working_dir: /application
+      volumes:
+        - .:/application
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=bepark
+        - MYSQL_USER=bepark
+        - MYSQL_PASSWORD=bepark
+      ports:
+        - "8090:3306"
+
+    webserver:
+      image: nginx:alpine
+      container_name: bepark-webserver
+      working_dir: /application
+      volumes:
+          - .:/application
+          - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+       - "8088:80"
+
+    node:
+      image: node:14
+      container_name: bepark-node
+      working_dir: /application
+      volumes:
+        - .:/application
+      entrypoint: sleep 999999999
+
+    redis:
+      image: redis:4.0
+      container_name: bepark-redis
+      ports:
+        - "6382:6379"
+
+    php-fpm:
+      build: phpdocker/php-fpm
+      container_name: bepark-php-fpm
+      working_dir: /application
+      volumes:
+        - .:/application
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+
