@@ -29,7 +29,17 @@ At this moment application supports 4 data sources:
 3. Rawg.io
 4. Twitch API
 
- 
+
+## Missing features / known problems
+
+### Autocomplete
+
+Autocomplete can be done adding proper component on front-end and decorator for GameRepository.
+
+### Handling remasters
+
+Sometimes games are remastered - in this case for same cases 2 games will share same name but different details. In this case we can add matching games by: name (like for now), release date (if available) and platforms (if available).
+This solution will require additional action screen for a user - he will need to choose which game he wants to add.  
 
 ## Installation
 

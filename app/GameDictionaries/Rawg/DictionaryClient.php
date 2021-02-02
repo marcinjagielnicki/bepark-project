@@ -79,10 +79,13 @@ class DictionaryClient implements DictionaryClientInterface
         $dto->setRating(isset($resultItem['rating']) ? (int)round($resultItem['rating']) : null);
         $dto->setReleasedAt($resultItem['released'] ? Carbon::createFromFormat('Y-m-d', $resultItem['released']) : null);
 
-        foreach ($resultItem['platforms'] as $platform) {
-            $platformDto = new GamePlatformDTO($platform['platform']['name'], (string)$platform['platform']['id']);
-            $dto->addPlatform($platformDto);
+        if (isset($resultItem['platforms']) && is_array($resultItem['platforms'])) {
+            foreach ($resultItem['platforms'] as $platform) {
+                $platformDto = new GamePlatformDTO($platform['platform']['name'], (string)$platform['platform']['id']);
+                $dto->addPlatform($platformDto);
+            }
         }
+
 
         return $dto;
     }

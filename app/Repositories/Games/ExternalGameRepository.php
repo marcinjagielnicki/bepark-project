@@ -42,6 +42,7 @@ class ExternalGameRepository implements ExternalGameRepositoryInterface
                 }
             } catch (\Exception $exception) {
                 \Log::error('External game source exception');
+                \Log::error($exception);
             }
 
         }
