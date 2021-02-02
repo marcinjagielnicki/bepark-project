@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Jobs;
 
@@ -14,16 +15,12 @@ class FetchGameData implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * @var Game
-     */
+    public $tries = 10;
+
+    public $maxExceptions = 5;
+
     private Game $game;
 
-    /**
-     * Create a new job instance.
-     *
-     * @param Game $game
-     */
     public function __construct(Game $game)
     {
         $this->game = $game;
@@ -31,8 +28,16 @@ class FetchGameData implements ShouldQueue
 
     public function handle(SyncGameDataService $syncGameDataService)
     {
-        $syncGameDataService->syncGameFromExternal($this->game);
+        if ($this->game->sync_status === Game::SYNC_GAME_DATA) {
+            $syncGameDataService->syncGameFromExternal($this->game);
+        } else {
+            \Log::info('Game already in sync', $this->game->toArray());
+        }
     }
 
 
+    public function retryUntil()
+    {
+        return now()->addMinutes(15);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -29,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(GameRepositoryInterface::class, GameRepository::class);
 
 
-        $this->app->bind(Client::class, function($app) {
+        $this->app->bind(Client::class, function ($app) {
             $guzzle = new \GuzzleHttp\Client([
                 'base_uri' => config('rawg.api_endpoint')
             ]);
@@ -39,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
             return new Client($guzzle, $apiKey);
         });
 
-        $this->app->bind(ExternalGameRepositoryInterface::class, function($app) {
+        $this->app->bind(ExternalGameRepositoryInterface::class, function ($app) {
             $repository = new ExternalGameRepository($app->make(GameRepositoryInterface::class));
             $repository->addSource($app->make(DictionaryClient::class));
             $repository->addSource($app->make(\App\GameDictionaries\Twitch\DictionaryClient::class));
@@ -47,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
             return $repository;
         });
 
-        $this->app->extend(GameRepository::class, function(GameRepository $service, $app) {
+        $this->app->extend(GameRepository::class, function (GameRepository $service, $app) {
             return new CacheGameRepositoryDecorator(new DatabaseGameRepositoryDecorator($app->make(Game::class), $service));
         });
     }

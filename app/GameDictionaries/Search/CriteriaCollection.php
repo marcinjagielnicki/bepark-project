@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\GameDictionaries\Search;
@@ -14,9 +15,6 @@ class CriteriaCollection
         $this->criteria[] = $criteria;
     }
 
-    /**
-     * @return array
-     */
     public function getCriteria(): array
     {
         return $this->criteria;

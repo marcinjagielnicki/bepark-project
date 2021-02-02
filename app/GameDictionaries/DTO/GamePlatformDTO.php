@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\GameDictionaries\DTO;
 
 
-use App\Models\Game;
-use Carbon\CarbonInterface;
 use Illuminate\Contracts\Support\Arrayable;
 
 class GamePlatformDTO implements Arrayable
@@ -19,17 +18,11 @@ class GamePlatformDTO implements Arrayable
         $this->externalId = $externalId;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getExternalId(): string
     {
         return $this->externalId;

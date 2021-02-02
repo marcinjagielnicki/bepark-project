@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\GameDictionaries\Rawg\Exceptions;
@@ -15,17 +16,11 @@ class ClientResponseException extends \Exception
         $this->response = $response;
     }
 
-    /**
-     * @return mixed
-     */
     public function getResponse()
     {
         return $this->response;
     }
 
-    /**
-     * @param mixed $response
-     */
     public function setResponse($response): void
     {
         $this->response = $response;

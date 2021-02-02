@@ -15,9 +15,14 @@ class CreateUserGamesTable extends Migration
     {
         Schema::create('user_games', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('game_id');
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('game_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->index(['game_id', 'user_id'], 'game_user');
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('game_id')->references('id')->on('games');
         });
     }
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\Repositories\Games;
@@ -27,13 +28,12 @@ class CacheGameRepositoryDecorator implements GameRepositoryInterface
 
     protected function serializeCriteria(CriteriaCollection $criteriaCollection): string
     {
-       $key = '';
+        $key = '';
 
-       foreach ($criteriaCollection->getCriteria() as $criteria)
-       {
-           $key .= sprintf(',%s', json_encode($criteria->getSettings()));
-       }
-       return $key;
+        foreach ($criteriaCollection->getCriteria() as $criteria) {
+            $key .= sprintf(',%s', json_encode($criteria->getSettings()));
+        }
+        return $key;
     }
 
     public function saveGame(Game $game)

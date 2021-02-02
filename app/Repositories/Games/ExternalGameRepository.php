@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\Repositories\Games;
@@ -12,9 +13,9 @@ use Illuminate\Support\Collection;
 
 class ExternalGameRepository implements ExternalGameRepositoryInterface
 {
-    /**
-     * @var GameRepositoryInterface
-     */
+    /** @var DictionaryClientInterface[] */
+    protected array $sources = [];
+
     private GameRepositoryInterface $gameRepository;
 
     public function __construct(GameRepositoryInterface $gameRepository)
@@ -22,14 +23,6 @@ class ExternalGameRepository implements ExternalGameRepositoryInterface
         $this->gameRepository = $gameRepository;
     }
 
-    /** @var DictionaryClientInterface[] */
-    protected array $sources = [];
-
-    /**
-     * Add external data source.
-     * @param DictionaryClientInterface $dictionaryClient
-     * @return $this
-     */
     public function addSource(DictionaryClientInterface $dictionaryClient): self
     {
         $this->sources[] = $dictionaryClient;
@@ -43,9 +36,14 @@ class ExternalGameRepository implements ExternalGameRepositoryInterface
 
         // Iterate over each source and collect all games found.
         foreach ($this->sources as $source) {
-            foreach ($source->findGames($criteriaCollection) as $game) {
-                $games->push($game);
+            try {
+                foreach ($source->findGames($criteriaCollection) as $game) {
+                    $games->push($game);
+                }
+            } catch (\Exception $exception) {
+                \Log::error('External game source exception');
             }
+
         }
         return $games;
     }

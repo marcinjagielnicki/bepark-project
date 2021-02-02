@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\GameDictionaries\Rawg;
@@ -41,10 +42,10 @@ class Client
             ]
         ];
 
-        if(self::REQUEST_TYPE_GET === $type) {
+        if (self::REQUEST_TYPE_GET === $type) {
 
             // Disallow app to set api key directly in request.
-            if(isset($params['key'])) {
+            if (isset($params['key'])) {
                 unset($params['key']);
             }
 
@@ -68,7 +69,7 @@ class Client
     {
         $responseArray = json_decode((string)$response->getBody(), true);
 
-        if(!is_array($responseArray)) {
+        if (!is_array($responseArray)) {
             throw new ClientResponseException($responseArray, 'Could not parse Rawg response');
         }
 

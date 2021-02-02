@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\GameDictionaries\DTO;
@@ -11,7 +12,7 @@ class GameDTO
 {
     protected string $name;
     protected ?string $description = null;
-    /** @var GamePlatformDTO[]  */
+    /** @var GamePlatformDTO[] */
     protected array $platforms = [];
     protected ?int $rating = null;
     protected ?int $metacriticRating = null;
@@ -41,7 +42,7 @@ class GameDTO
             'platforms' => []
         ];
 
-        if(count($this->platforms)) {
+        if (count($this->platforms)) {
             foreach ($this->platforms as $platform) {
                 $meta['platforms'][] = $platform->toArray();
             }
@@ -53,97 +54,61 @@ class GameDTO
         return $model;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     */
     public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return int|null
-     */
     public function getRating(): ?int
     {
         return $this->rating;
     }
 
-    /**
-     * @param int|null $rating
-     */
     public function setRating(?int $rating): void
     {
         $this->rating = $rating;
     }
 
-    /**
-     * @return int|null
-     */
     public function getMetacriticRating(): ?int
     {
         return $this->metacriticRating;
     }
 
-    /**
-     * @param int|null $metacriticRating
-     */
     public function setMetacriticRating(?int $metacriticRating): void
     {
         $this->metacriticRating = $metacriticRating;
     }
 
-    /**
-     * @return CarbonInterface|null
-     */
     public function getReleasedAt(): ?CarbonInterface
     {
         return $this->releasedAt;
     }
 
-    /**
-     * @param CarbonInterface|null $releasedAt
-     */
     public function setReleasedAt(?CarbonInterface $releasedAt): void
     {
         $this->releasedAt = $releasedAt;
     }
 
-    /**
-     * @return string|null
-     */
     public function getImageUrl(): ?string
     {
         return $this->imageUrl;
     }
 
-    /**
-     * @param string|null $imageUrl
-     */
     public function setImageUrl(?string $imageUrl): void
     {
         $this->imageUrl = $imageUrl;

@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\View\Components;
 
-use App\Models\User;
 use Illuminate\View\Component;
 
 class UserGames extends Component

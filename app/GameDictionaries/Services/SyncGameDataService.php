@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\GameDictionaries\Services;
@@ -15,17 +16,11 @@ use Illuminate\Support\Collection;
 
 class SyncGameDataService
 {
-    /**
-     * @var GameRepositoryInterface
-     */
+
     private GameRepositoryInterface $gameRepository;
-    /**
-     * @var ExternalGameRepositoryInterface
-     */
+
     private ExternalGameRepositoryInterface $externalGameRepository;
-    /**
-     * @var DatabaseGameRepository
-     */
+
     private DatabaseGameRepository $databaseGameRepository;
 
 
@@ -77,12 +72,8 @@ class SyncGameDataService
     protected function rejectEmptyProperties(array $modelData): array
     {
         return collect($modelData)->reject(function ($value) {
-            if (is_array($value)) {
-                if (isset($value['platforms'])) {
-                    if (!count($value['platforms'])) {
-                        return true;
-                    }
-                }
+            if (is_array($value) && empty($value['platforms'] ?? [])) {
+                return true;
             }
             return empty($value);
         })->toArray();

@@ -26,6 +26,9 @@ class CreateGamesTable extends Migration
             $table->smallInteger('sync_status')->default(0);
 
             $table->timestamps();
+
+            $table->index(['released_at'], 'released_at');
+            $table->index(['rating'], 'rating');
         });
     }
 

@@ -87,7 +87,7 @@ migrate-database: ## MIGRATE database
 	$(DOCKER_BASH) $(MIGRATE_DATABASE)
 
 
-recreate-db: drop-database create-database ## removes and creates new, empty db
+recreate-db: drop-database migrate-database ## removes and creates new, empty db
 
 
 #================================================

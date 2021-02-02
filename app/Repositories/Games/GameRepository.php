@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\Repositories\Games;
@@ -18,7 +19,7 @@ class GameRepository implements GameRepositoryInterface
 
     public function saveGame(Game $game)
     {
-        if($game->sync_status === Game::SYNC_GAME_DATA) {
+        if ($game->sync_status === Game::SYNC_GAME_DATA) {
             // Dispatch sync/async job for sync games data
             FetchGameData::dispatch($game);
         }
@@ -26,7 +27,7 @@ class GameRepository implements GameRepositoryInterface
 
     public function updateOrCreateNewGame(Game $game)
     {
-        if($game->sync_status === Game::SYNC_GAME_DATA) {
+        if ($game->sync_status === Game::SYNC_GAME_DATA) {
             FetchGameData::dispatch($game);
         }
     }

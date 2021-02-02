@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\GameDictionaries\Twitch;
@@ -40,24 +41,6 @@ class DictionaryClient implements DictionaryClientInterface
 
     }
 
-    /**
-     * @param $resultItem
-     * @return GameDTO
-     */
-    protected function createGameDTO($resultItem): GameDTO
-    {
-        $dto = new GameDTO($resultItem->name);
-        $dto->setImageUrl($resultItem->cover->url ?? null);
-        $dto->setDescription($resultItem->summary ?? null);
-
-        return $dto;
-    }
-
-    /**
-     * @param CriteriaCollection $criteriaCollection
-     * @param Builder $builder
-     * @return Builder
-     */
     protected function applyGameCriteria(CriteriaCollection $criteriaCollection, Builder $builder): Builder
     {
 
@@ -70,16 +53,20 @@ class DictionaryClient implements DictionaryClientInterface
         return $builder;
     }
 
-    /**
-     * @param GameNameFilter $filter
-     * @param Builder $builder
-     * @return Builder
-     */
     protected function applyGameNameFilter(GameNameFilter $filter, Builder $builder): Builder
     {
         $settings = $filter->getSettings();
         $builder->search($settings[GameNameFilter::GAME_NAME_SETTING]);
 
         return $builder;
+    }
+
+    protected function createGameDTO($resultItem): GameDTO
+    {
+        $dto = new GameDTO($resultItem->name);
+        $dto->setImageUrl($resultItem->cover->url ?? null);
+        $dto->setDescription($resultItem->summary ?? null);
+
+        return $dto;
     }
 }
